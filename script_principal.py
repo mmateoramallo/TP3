@@ -54,28 +54,34 @@ def principal():
     lenguajes = ('Python', 'Java', 'C++', 'Javascript', 'Shell', 'HTML', 'Ruby', 'Swift', 'C#', 'VB', 'Go')
     registros_vec = []
     print('Su opcion es:', opcion)
+
     while opcion != 8:
         if opcion == 1:
             print('*' * 25, 'Cargar Proyectos', '*' * 25)
             leng_elegido = random.choice(lenguajes)
             titulo_proyecto = input('-> Ingrese el titulo del Proyecto a Registrar:')
-            if titulo_proyecto == " ":
+            if titulo_proyecto == "":
                 titulo_proyecto = input('-> Ingrese el titulo CORRECTAMENTE del Proyecto a Registrar: ')
+
             fecha_proyecto = input('-> Ingrese la fecha de actualización del Proyecto(dd-mm-yyyy): ')
             while validar_fecha(fecha_proyecto) == False:
                 fecha_proyecto = input(
                     '-> Ingrese la fecha de actualización del Proyecto(dd-mm-yyyy), entre los años 2000 y 2022: ')
+
             cant_lineas = int(input('-> Ingrese la cantidad de lineas de codigo del Proyecto a Registrar:'))
             if cant_lineas <= 0:
                 cant_lineas = int(
                     input('-> Ingrese un Valor CORRECTO en la cantidad de lineas de codigo del Proyecto a Registrar:'))
+
             # Generamos la instancia de la clase Registro
             registro = Registro(id_proyecto, titulo_proyecto, fecha_proyecto, leng_elegido, cant_lineas)
+
             #Incrementamos el contador de id_proyecto
             id_proyecto += 1
+
             #Lo agregamos al vector de registros
             registros_vec.append(registro)
-            print(registros_vec)
+
         opcion = int(input('Ingrese su opcion: '))
 
 
