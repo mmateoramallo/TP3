@@ -22,15 +22,27 @@ def convert_tuple_str(tuple):
 
 
 def ordenar_titulo(vec):
-    vec_alf = []
+    #vec_alf = []
+    n = len(vec)
     # Acceder al casillero de los titulos en el vector de registros
+    """
     for i in range(len(vec)):
         # Almacenar todos los titulos de los proyectos en el vector
         vec_alf.append(vec[i].titulo)
-    # Una vez que ya almacenamos todos los titulos en el vector lo ordenamos
+    """
+    # Una vez que ya almacenamos todos los titulos en el vector lo ordenamos al vector de los titulos
+    for i in range(n - 1):
+        ordenado = True
+        for j in range(n - i - 1):
+            if vec[j].titulo > vec[j + 1].titulo:
+                ordenado = False
+                vec[j], vec[j + 1] = vec[j + 1], vec[j]
+        if ordenado:
+            break
+    return vec
 
-    return vec_alf
-
+def mostrar_proyectos_ordenados(vec_ordenado):
+    pass
 
 def cargar_proyectos(id, lenguaje, clase=Registro):
     # Le solicitamos al usuario el titulo del proyecto
@@ -91,9 +103,25 @@ def principal():
         elif opcion == 2:
             # ordenar_titulo(registros_vec)
             print('Mostramos el registro generado')
-            for i in range(len(registros_vec)):
-                print(registros_vec[i])
-            pass
+            vec_ord = ordenar_titulo(registros_vec)
+            print(vec_ord)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         # Mostramos nuevamente el menu
         mostrar_menu()
