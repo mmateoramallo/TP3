@@ -12,4 +12,10 @@ class Registro:
     # return f"Registro: Nombre {self.titulo}, Numero :{self.num_proyect}, Fecha: {self.fecha_actualizacion}, Lenguaje:{self.lenguaje},  Lineas {self.cant_lineas}"
 
     def mostrar_descripcion(self):
-        pass
+        descr = ''
+        descr += '{:}'.format('Nombre Proyecto:' + (self.titulo))
+        descr += '{:}'.format('ID del Proyecto:' + (self.num_proyect))
+        descr += '{:}'.format('Fecha De Actualizacion del Proyecto:' + (self.fecha_actualizacion))
+        descr += '{:}'.format('Cantidad de Lineas del Proyecto:' +str(self.cant_lineas))
+        descr += '{:}'.format('Lenguaje:' +(self.lenguaje))
+        return descr

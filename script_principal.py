@@ -42,7 +42,9 @@ def ordenar_titulo(vec):
     return vec
 
 def mostrar_proyectos_ordenados(vec_ordenado):
-    pass
+    for i in range(len(vec_ordenado)):
+        descripcion = (vec_ordenado[i].mostrar_descripcion())
+        print(descripcion)
 
 def cargar_proyectos(id, lenguaje, clase=Registro):
     # Le solicitamos al usuario el titulo del proyecto
