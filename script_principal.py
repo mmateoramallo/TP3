@@ -14,6 +14,34 @@ def mostrar_menu():
     print('8. Salir')
 
 
+def buscar_proyecto(x, vec):
+    # Recorremos el array
+    for i in range(len(vec)):
+        # Corroboramos si el elemento se encuentra en la posicion sub[i] del array
+        if vec[i].num_proyect == x:
+            return True, vec[i]
+        return False
+
+
+def validar(n):
+    x = int(input('Ingrese el numero del proyecto a buscar: '))
+    while x < n:
+        x = int(input('Ingrese el numero del proyecto a buscar: '))
+    return x
+
+
+def update_proyecto(vec, x):
+    # Buscamos ese numero en nuestro array de registros
+    se_encontro, registro_encontrado = buscar_proyecto(x, vec)
+    # Corroboramos si se encontro o no
+    if se_encontro:
+        cad = registro_encontrado
+        print(cad)
+
+
+# Accedemos al
+
+
 def convert_tuple_str(tuple):
     tuple_str = ''
     for i in tuple:
@@ -22,7 +50,7 @@ def convert_tuple_str(tuple):
 
 
 def ordenar_titulo(vec):
-    #vec_alf = []
+    # vec_alf = []
     n = len(vec)
     # Acceder al casillero de los titulos en el vector de registros
     """
@@ -41,10 +69,10 @@ def ordenar_titulo(vec):
             break
     return vec
 
+
 def mostrar_proyectos_ordenados(vec_ordenado):
-    for i in range(len(vec_ordenado)):
-        descripcion = (vec_ordenado[i].mostrar_descripcion())
-        print(descripcion)
+    pass
+
 
 def cargar_proyectos(id, lenguaje, clase=Registro):
     # Le solicitamos al usuario el titulo del proyecto
@@ -103,27 +131,16 @@ def principal():
             # Lo agregamos al vector de registros
             registros_vec.append(registro)
         elif opcion == 2:
-            # ordenar_titulo(registros_vec)
-            print('Mostramos el registro generado')
-            vec_ord = ordenar_titulo(registros_vec)
-            print(vec_ord)
+            # Ordenamos el vector de registros segun sus titulos
+            registros_vec_or = ordenar_titulo(registros_vec)
+            # Vemos si estan ordenados
+            for i in range(len(registros_vec_or)):
+                print(registros_vec_or[i])
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        elif opcion == 3:
+            # Le solicitamos al usuario el valor a buscar del numero del proyecto
+            x = validar(0)
+            update_proyecto(registros_vec, x)
 
         # Mostramos nuevamente el menu
         mostrar_menu()
