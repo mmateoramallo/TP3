@@ -1,6 +1,8 @@
 from Registro import *
 import random
 
+#Defino una semilla para pruebas
+random.seed(21)
 
 def mostrar_menu():
     print('-' * 25, '> Gestión de Proyectos de Software')
@@ -14,12 +16,182 @@ def mostrar_menu():
     print('8. Salir')
 
 def cargar_proyectos(vec, n):
-    num_id = 1
+    #Verificar que no se repitan los numeros de proyectos
+    long = len(vec)
+    if long != 0:
+        num_id  = long + 1
+    else:
+        num_id = 1
     titulos = ('Mario', 'BloodBorne', 'AlphaNum', 'Valorant', 'Doom', 'Metro', 'Calculadora', 'Administrador De Archivos', 'IDE', 'RDR2', 'RE2', 'Bioshock', 'Redes Neuronales')
-
+    lenguajes = ('Python', 'Java', 'C++', 'Javascript', 'Shell', 'HTML', 'Ruby', 'Swift', 'C#', 'VB', 'Go')
     #Recorro el range n y voy agregando los datos generados al vector
     for i in range(n):
         #Genero los datos
+        titulo = random.choice(titulos)
+        dia = random.randint(1,30)
+        #Veo si es un numero entre el 1-9 el dia
+        if 1<=dia<=9:
+            dia = '0'+str(dia)
+        mes = random.randint(1,12)
+        #Veo si es un numero entre el 1-9 el mes
+        if 1<=mes<=9:
+            mes = '0'+str(mes)
+        #Para generar la fecha lo que hacemos es generar en tres partes, la tupla correspondiente a dia-mes-año. Y al generar el año en random.randint, nos evitamos la validacion
+        año = random.randint(2000,2022)
+        #Fecha
+        fecha = str(dia)+'-'+str(mes)+'-'+str(año)
+        #Lineas de codigo
+        cant_lineas = random.randint(100,10000)
+        #Lenguaje
+
+        lenguaje = random.choice(lenguajes)
+        #lenguaje = random.randint(1,10)
+
+        #Generamos la instancia del registro
+        proyecto = Registro(num_id,titulo,fecha,lenguaje,cant_lineas)
+        #Incrementamos el contador del numero de proyecto para que este no se repita cada vez que cargamos un proyecto
+        num_id += 1
+        #Agregamos la instancia del registro al vector
+        vec.append(proyecto)
+
+
+def sort_proyectos(vec):
+    n = len(vec)
+    for i in range(n - 1):
+        ordenado = True
+        for j in range(n - i - 1):
+            if vec[j].titulo > vec[j + 1].titulo:
+                ordenado = False
+                vec[j], vec[j + 1] = vec[j + 1], vec[j]
+        if ordenado:
+            break
+    return vec
+
+def list_proyectos(vec):
+    #Recorro el arreglo
+    for i in vec:
+        print(i)
+
+
+def validar_fecha():
+    #Solicita al usuario y ahi mismo la valida para poder retornarla correctamente
+    date = input('Ingrese la fecha en formato dd-mm-yyyy: ')
+    #Vamos a validar que el dia ingresado, mes, y año sean correctos
+    dia = date[0]+date[1]
+    mes = date[3]+date[4]
+    año = date[6]+date[7]+date[8]+date[9]
+    #Convierto a int
+    dia = int(dia)
+    mes = int(mes)
+    año = int(año)
+    #Verifico
+    while not((1<=dia<=30)and (1<=mes<=12) and (2000<=año<=2022)):
+        date = input('Ingrese la fecha CORRECTAMENTE!! en formato dd-mm-yyyy: ')
+    
+    return date
+def mod_lineas_codigo():
+    cant_lineas = int(input('Ingrese la cantidad de lineas de codigo del proyecto: '))
+    while cant_lineas <= 0:
+        cant_lineas = int(input('Ingrese la cantidad de lineas de codigo del proyecto: '))
+    
+    return cant_lineas
+
+
+
+def search_proyect(x, vec):
+    pos = -1
+    #Recorro el arreglo en busca del registro
+    for i in range(len(vec)):
+        #Consulto si el numero de proyecto del vector i es igual al numero brindado por el usuario
+        if vec[i].num_proyect == x:
+            #Guardo su posicion
+            pos = i
+            #Se debe modificar su fecha
+            fecha = validar_fecha()
+            #Modificar cantidad de lineas de codigo
+            cant_lineas = mod_lineas_codigo()
+            #Accedemos al registro encontrado y lo modificamos
+            vec[pos].fecha_actualizacion = fecha
+            vec[pos].cant_lineas = cant_lineas
+            #Mostramos el registro modificado
+            print(vec[i])
+
+def buscar_pos_leng(vec):
+    pos = -1
+    lenguaje_reg = ""
+    lenguajes = ('Python', 'Java', 'C++', 'Javascript', 'Shell', 'HTML', 'Ruby', 'Swift', 'C#', 'VB', 'Go')
+    for i in range(len(vec)):
+        #Que lenguaje es; guardar posicion del lenguaje del registro
+        for j in range(len(lenguajes)):
+            lenguaje_reg = vec[i].lenguaje
+            #Chequeo
+            if lenguaje_reg == lenguajes[j]:
+                pos = j
+    
+    return j
+
+def summary_lenguaje(vec):
+    pos = -1
+    leng = ""
+    lenguajes = ('Python', 'Java', 'C++', 'Javascript', 'Shell', 'HTML', 'Ruby', 'Swift', 'C#', 'VB', 'Go')
+    #Creamos el vector acumulador con 11 casillas, una por cada lenguaje
+    vec_ac = [0] * 11
+    #Busco el lenguaje elegido en la tupla
+    for i in vec:
+        pass
+    return vec_ac
+
+
+def summary_year(vec):
+    vec_cont = [0] * 23
+    #Recorremos el arreglo
+    for i in vec:
+        año = i.fecha_actualizacion
+        año = año[6]+año[7]+año[8]+año[9]
+        año = int(año)
+        #Accedemos a la casilla correspondiente al año menos 2000, para contar el proyecto
+        vec_cont[año-2000] += 1
+    return vec_cont
+
+
+def filtrar_lenguaje(vec, leng):
+    vec_ln = []
+    for i in range(len(vec)):
+        #Veo si el lenguaje dle registro que estamos iterando en este momento, es igual al lenguaje que me brindo el usuario por teclado
+        if vec[i].lenguaje == leng:
+            vec_ln.append(vec[i])
+    #En este punto tenemos todo el vector con el lenguaje especifico, y lo ordenaremos
+    n = len(vec_ln)
+    for i in range(n-1):
+        for j in range(n+1, n):
+            if vec_ln[j].num_proyect < vec_ln[i].num_proyect:
+                vec_ln[i], vec_ln[j] = vec_ln[j], vec_ln[i]
+    #Recorro el vector para mostrarlo como quedo filtrado
+    for v in vec_ln:
+        print(v)
+
+def productividad(vec_cont):
+    mayor = 0
+    pos = -1
+    pos_posibles_mayores = []
+    posibles_mayores = []
+    #Recorro el vector de conteo en busca del año con mayor cantidad de proyecto actualizados
+    for i in range(len(vec_cont)):
+        if vec_cont[i] > mayor:
+            mayor = vec_cont[i]
+            pos = i
+            break
+        
+    #Ya tenemos el mayor y su año
+    #Recorro el vector nuevamente para ver si hay un valor que coincida con el mayor
+    for j in range(len(vec_cont)):
+        #Veo de que el contador en la posicion sub-j, si hay otro elemento igual al mayor, y la posicion es distinta de la primera encontrada
+        if vec_cont[j] == mayor and(pos != j):
+            #En dicho caso guardamos en vectores paralelos, el valor, y su posicion
+            posibles_mayores.append(vec_cont[j])
+            pos_posibles_mayores.append(j)
+    
+    
 
 
 
@@ -36,20 +208,44 @@ def principal():
         if op == 1:
             #Le solicitamos al usuario la cantidad de proyectos a registrar
             n = int(input('Ingrese la cantidad de proyectos a registrar: '))
+            cargar_proyectos(vec_proyectos, n)
+            
+            print('*'*21,'Proyectos Generados','*'*21)
+            
+            #Muestra de Prouectos para testear ->>>> Eliminar en la entrega
+            for i in vec_proyectos:
+                print(i)
         elif op == 2:
-            pass
+            sort_proyectos(vec_proyectos)
+            list_proyectos(vec_proyectos)
         elif op == 3:
-            pass
+            x = int(input('Ingrese el numero del proyecto a buscar: '))
+            search_proyect(x, vec_proyectos)
         elif op == 4:
-            pass
+            vec_ac = summary_lenguaje(vec_proyectos)
+            print(vec_ac)
         elif op == 5:
-            pass
+            vec_cont = summary_year(vec_proyectos)
+            #Recorremos el vector de conteo y mostramos el resultado si es distinto de cero
+            for i in range(len(vec_cont)):
+                if vec_cont[i] > 0:
+                    print('La cantidad de proyectos correspondientes al año:', (i + 2000), ' es de:', vec_cont[i])
         elif op == 6:
-            pass
+            print('-Lenguajes-')
+            lenguajes = ('Python', 'Java', 'C++', 'Javascript', 'Shell', 'HTML', 'Ruby', 'Swift', 'C#', 'VB', 'Go')
+            print(lenguajes)
+            leng = input('Ingrese el lenguaje elegido:' )
+            filtrar_lenguaje(vec_proyectos, leng)
         elif op == 7:
-            pass
+            productividad(vec_cont)
         elif op == 8:
             pass
+        
+
+        #Solictamos una nueva opcion al usuario
+        mostrar_menu()
+        op = int(input('Ingrese su opcion: '))
+
 
 
 #Control De Ejecuccion
