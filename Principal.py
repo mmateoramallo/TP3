@@ -114,10 +114,13 @@ def mod_lineas_codigo():
 
 def search_proyect(x, vec):
     pos = -1
+    existe = False
     # Recorro el arreglo en busca del registro
     for i in range(len(vec)):
         # Consulto si el numero de proyecto del vector i es igual al numero brindado por el usuario
         if vec[i].num_proyect == x:
+            #Prendo la bandera
+            existe = True
             # Guardo su posicion
             pos = i
             # Se debe modificar su fecha
@@ -129,6 +132,11 @@ def search_proyect(x, vec):
             vec[pos].cant_lineas = cant_lineas
             # Mostramos el registro modificado
             print(vec[i])
+    if existe == False:
+        print('-'*10,'> El Registro con el numero de proyecto', x, 'no se ha encontrado')
+
+    #Reinit bandera
+    existe = False
 
 
 def buscar_pos_leng(vec):
