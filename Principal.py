@@ -81,7 +81,7 @@ def list_proyectos(vec):
 
 def validar_fecha():
     # Solicita al usuario y ahi mismo la valida para poder retornarla correctamente
-    date = input('Ingrese la fecha en formato dd-mm-yyyy: ')
+    date = input('Ingrese la fecha a Actualizar del Proyecto en formato dd-mm-yyyy: ')
     # Vamos a validar que el dia ingresado, mes, y año sean correctos
     dia = date[0] + date[1]
     mes = date[3] + date[4]
@@ -93,7 +93,14 @@ def validar_fecha():
     # Verifico
     while not ((1 <= dia <= 30) and (1 <= mes <= 12) and (2000 <= año <= 2022)):
         date = input('Ingrese la fecha CORRECTAMENTE!! en formato dd-mm-yyyy: ')
-
+        # Volvemos extraer los datos en cadena
+        dia = date[0] + date[1]
+        mes = date[3] + date[4]
+        año = date[6] + date[7] + date[8] + date[9]
+        # Convierto a int
+        dia = int(dia)
+        mes = int(mes)
+        año = int(año)
     return date
 
 
@@ -122,6 +129,8 @@ def search_proyect(x, vec):
             vec[pos].cant_lineas = cant_lineas
             # Mostramos el registro modificado
             print(vec[i])
+    else:
+        print('*' * 10, 'No se ha encontrado dicho Proyecto', '*' * 10)
 
 
 def buscar_pos_leng(vec):
@@ -188,26 +197,38 @@ def filtrar_lenguaje(vec, leng):
 def productividad(vec_cont):
     mayor = 0
     pos = -1
-    pos_posibles_mayores = []
-    posibles_mayores = []
+    for i in range(len(vec_cont)):
+        if i == 0:
+            mayor = vec_cont[i]
+        #Busco El mayor
+        if vec_cont[i] > mayor:
+            mayor = vec_cont[i]
+            pos = i
+    print('*' * 11, 'Años con Mayor Cantidad De Proyectos actualizados', '*' * 11)
+    print('*' * 11, 'Cantidad de proyectos actualizados:', mayor, ' en el año', str(pos + 2000), '*' * 11)
+    #Recorro nuevamente en busqueda de si existen otros mayores
+    for j in range(len(vec_cont)):
+        if vec_cont[j] == mayor and pos != j:
+            print('*' * 11, 'Cantidad de proyectos actualizados:', vec_cont[j], ' en el año', str(j + 2000), '*' * 11)
+"""    
+   mayor = 0
+    pos = -1
     # Recorro el vector de conteo en busca del año con mayor cantidad de proyecto actualizados
     for i in range(len(vec_cont)):
+        if i == 0:
+            mayor = vec_cont[i]
         if vec_cont[i] > mayor:
             mayor = vec_cont[i]
             pos = i
             break
-
-    # Ya tenemos el mayor y su año
-    # Recorro el vector nuevamente para ver si hay un valor que coincida con el mayor
+        print('*' * 11, 'Años con Mayor Cantidad De Proyectos actualizados', '*' * 11)
+        print('*' * 11, 'Cantidad de proyectos actualizados:', mayor, ' en el año', str(pos + 2000), '*' * 11)
+    # Vuevlo a recorrer el vector, pregunto si hay otro contador con el mismo valor que el mayor y en distinta posicion del mismo
     for j in range(len(vec_cont)):
-        # Veo de que el contador en la posicion sub-j, si hay otro elemento igual al mayor, y la posicion es distinta de la primera encontrada
-        if vec_cont[j] == mayor and (pos != j):
-            # En dicho caso guardamos en vectores paralelos, el valor, y su posicion
-            posibles_mayores.append(vec_cont[j])
-            pos_posibles_mayores.append(j)
-
-    return mayor, pos, posibles_mayores, pos_posibles_mayores
-
+        if (vec_cont[j] == mayor and pos != j):
+            print('*' * 11, 'Años con Mayor Cantidad De Proyectos actualizados', '*' * 11)
+            print('*' * 11, 'Cantidad de proyectos actualizados:', vec_cont[j], ' en el año', str(j + 2000), '*' * 11)
+"""
 
 def principal():
     # Variables
@@ -215,14 +236,20 @@ def principal():
 
     # Mostramos el menu
     mostrar_menu()
+
+    print()
+    print()
+
     op = int(input('Ingrese su opcion: '))
+    print()
+
     lenguajes = ('Python', 'Java', 'C++', 'Javascript', 'Shell', 'HTML', 'Ruby', 'Swift', 'C#', 'VB', 'Go')
 
     # Consultamos op
     while op != 8:
         if op == 1:
             # Le solicitamos al usuario la cantidad de proyectos a registrar
-            n = int(input('Ingrese la cantidad de proyectos a registrar: '))
+            n = int(input('-------> Ingrese la cantidad de proyectos a registrar: '))
             cargar_proyectos(vec_proyectos, n)
 
             print('*' * 21, 'Proyectos Generados', '*' * 21)
@@ -231,37 +258,45 @@ def principal():
             for i in vec_proyectos:
                 print(i)
         elif op == 2:
+            print()
+            print('*' * 21, 'Proyectos Ordenados Por titulos', '*' * 21)
             sort_proyectos(vec_proyectos)
             list_proyectos(vec_proyectos)
         elif op == 3:
+            print()
+            print('*' * 21, 'Buscar Proyecto Por ID', '*' * 21)
             x = int(input('Ingrese el numero del proyecto a buscar: '))
             search_proyect(x, vec_proyectos)
         elif op == 4:
+            print()
             print('*' * 21, 'Cantidad De Lineas Acumuladas Por Lenguaje', '*' * 21)
             vec_ac = summary_lenguaje(vec_proyectos)
             # print(vec_ac)
             for i in range(len(vec_ac)):
                 print('La cantidad de lineas escritas en el lenguaje', lenguajes[i], 'es de', vec_ac[i])
         elif op == 5:
+            print()
+            print('*' * 21, 'Cantidad De Proyectos Actualizados Por Año', '*' * 21)
             vec_cont = summary_year(vec_proyectos)
             # Recorremos el vector de conteo y mostramos el resultado si es distinto de cero
             for i in range(len(vec_cont)):
                 if vec_cont[i] > 0:
                     print('La cantidad de proyectos correspondientes al año:', (i + 2000), ' es de:', vec_cont[i])
         elif op == 6:
-            print('-Lenguajes-')
+            print()
+            print('*' * 21, 'Proyectos Filtrados Por lenguaje, y ordenados por ID', '*' * 21)
+            print('-' * 15, 'Lenguajes', '-' * 15)
             print(lenguajes)
             leng = input('Ingrese el lenguaje elegido para filtrar:')
             filtrar_lenguaje(vec_proyectos, leng)
         elif op == 7:
-            mayor, pos, posibles_mayores, pos_posibles_mayores = productividad(vec_cont)
-            #Chequeo si hay mas de un mayor:
-            for i in range(len(posibles_mayores)):
-                if posibles_mayores[i] != 0:
-                    print()
+            print()
+            productividad(vec_cont)
         elif op == 8:
             pass
 
+        print()
+        print()
         # Solictamos una nueva opcion al usuario
         mostrar_menu()
         op = int(input('Ingrese su opcion: '))
