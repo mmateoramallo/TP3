@@ -169,11 +169,11 @@ def summary_year(vec):
     vec_cont = [0] * 23
     # Recorremos el arreglo
     for i in vec:
-        año = i.fecha_actualizacion
-        año = año[6] + año[7] + año[8] + año[9]
-        año = int(año)
-        # Accedemos a la casilla correspondiente al año menos 2000, para contar el proyecto
-        vec_cont[año - 2000] += 1
+        year = i.fecha_actualizacion
+        year = year[6] + year[7] + year[8] + year[9]
+        year = int(year)
+        # Accedemos a la casilla correspondiente al year menos 2000, para contar el proyecto
+        vec_cont[year - 2000] += 1
     return vec_cont
 
 
@@ -200,16 +200,18 @@ def productividad(vec_cont):
     for i in range(len(vec_cont)):
         if i == 0:
             mayor = vec_cont[i]
-        #Busco El mayor
+        # Busco El mayor
         if vec_cont[i] > mayor:
             mayor = vec_cont[i]
             pos = i
     print('*' * 11, 'Años con Mayor Cantidad De Proyectos actualizados', '*' * 11)
     print('*' * 11, 'Cantidad de proyectos actualizados:', mayor, ' en el año', str(pos + 2000), '*' * 11)
-    #Recorro nuevamente en busqueda de si existen otros mayores
+    # Recorro nuevamente en busqueda de si existen otros mayores
     for j in range(len(vec_cont)):
         if vec_cont[j] == mayor and pos != j:
             print('*' * 11, 'Cantidad de proyectos actualizados:', vec_cont[j], ' en el año', str(j + 2000), '*' * 11)
+
+
 """    
    mayor = 0
     pos = -1
@@ -229,6 +231,7 @@ def productividad(vec_cont):
             print('*' * 11, 'Años con Mayor Cantidad De Proyectos actualizados', '*' * 11)
             print('*' * 11, 'Cantidad de proyectos actualizados:', vec_cont[j], ' en el año', str(j + 2000), '*' * 11)
 """
+
 
 def principal():
     # Variables
