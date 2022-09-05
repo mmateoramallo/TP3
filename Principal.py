@@ -129,8 +129,6 @@ def search_proyect(x, vec):
             vec[pos].cant_lineas = cant_lineas
             # Mostramos el registro modificado
             print(vec[i])
-    else:
-        print('*' * 10, 'No se ha encontrado dicho Proyecto', '*' * 10)
 
 
 def buscar_pos_leng(vec):
