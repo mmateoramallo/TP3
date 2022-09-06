@@ -2,7 +2,7 @@ from Registro import *
 import random
 
 # Defino una semilla para pruebas
-random.seed(21)
+#random.seed(21)
 
 
 def mostrar_menu():
@@ -42,9 +42,9 @@ def cargar_proyectos(vec, n):
         if 1 <= mes <= 9:
             mes = '0' + str(mes)
         # Para generar la fecha lo que hacemos es generar en tres partes, la tupla correspondiente a dia-mes-año. Y al generar el año en random.randint, nos evitamos la validacion
-        año = random.randint(2000, 2022)
+        year = random.randint(2000, 2022)
         # Fecha
-        fecha = str(dia) + '-' + str(mes) + '-' + str(año)
+        fecha = str(dia) + '-' + str(mes) + '-' + str(year)
         # Lineas de codigo
         cant_lineas = random.randint(100, 10000)
         # Lenguaje
@@ -85,22 +85,22 @@ def validar_fecha():
     # Vamos a validar que el dia ingresado, mes, y año sean correctos
     dia = date[0] + date[1]
     mes = date[3] + date[4]
-    año = date[6] + date[7] + date[8] + date[9]
+    year = date[6] + date[7] + date[8] + date[9]
     # Convierto a int
     dia = int(dia)
     mes = int(mes)
-    año = int(año)
+    year = int(year)
     # Verifico
-    while not ((1 <= dia <= 30) and (1 <= mes <= 12) and (2000 <= año <= 2022)):
+    while not ((1 <= dia <= 30) and (1 <= mes <= 12) and (2000 <= year <= 2022)):
         date = input('Ingrese la fecha CORRECTAMENTE!! en formato dd-mm-yyyy: ')
         # Volvemos extraer los datos en cadena
         dia = date[0] + date[1]
         mes = date[3] + date[4]
-        año = date[6] + date[7] + date[8] + date[9]
+        year = date[6] + date[7] + date[8] + date[9]
         # Convierto a int
         dia = int(dia)
         mes = int(mes)
-        año = int(año)
+        year = int(year)
     return date
 
 
@@ -119,7 +119,7 @@ def search_proyect(x, vec):
     for i in range(len(vec)):
         # Consulto si el numero de proyecto del vector i es igual al numero brindado por el usuario
         if vec[i].num_proyect == x:
-            #Prendo la bandera
+            # Prendo la bandera
             existe = True
             # Guardo su posicion
             pos = i
@@ -133,9 +133,9 @@ def search_proyect(x, vec):
             # Mostramos el registro modificado
             print(vec[i])
     if existe == False:
-        print('-'*10,'> El Registro con el numero de proyecto', x, 'no se ha encontrado')
+        print('-' * 10, '> El Registro con el numero de proyecto', x, 'no se ha encontrado')
 
-    #Reinit bandera
+    # Reinit bandera
     existe = False
 
 
@@ -192,9 +192,13 @@ def filtrar_lenguaje(vec, leng):
     # En este punto tenemos todo el vector con el lenguaje especifico, y lo ordenaremos
     n = len(vec_ln)
     for i in range(n - 1):
-        for j in range(n + 1, n):
-            if vec_ln[j].num_proyect < vec_ln[i].num_proyect:
-                vec_ln[i], vec_ln[j] = vec_ln[j], vec_ln[i]
+        ordenado = True
+        for j in range(n - i -1):
+            if vec_ln[j].num_proyect > vec_ln[j + 1].num_proyect:
+                ordenado = False
+                vec_ln[j], vec_ln[j + 1] = vec_ln[j+1], vec_ln[j]
+        if ordenado:
+            break
     # Recorro el vector para mostrarlo como quedo filtrado
     for v in vec_ln:
         print(v)
@@ -217,26 +221,6 @@ def productividad(vec_cont):
         if vec_cont[j] == mayor and pos != j:
             print('*' * 11, 'Cantidad de proyectos actualizados:', vec_cont[j], ' en el año', str(j + 2000), '*' * 11)
 
-
-"""    
-   mayor = 0
-    pos = -1
-    # Recorro el vector de conteo en busca del año con mayor cantidad de proyecto actualizados
-    for i in range(len(vec_cont)):
-        if i == 0:
-            mayor = vec_cont[i]
-        if vec_cont[i] > mayor:
-            mayor = vec_cont[i]
-            pos = i
-            break
-        print('*' * 11, 'Años con Mayor Cantidad De Proyectos actualizados', '*' * 11)
-        print('*' * 11, 'Cantidad de proyectos actualizados:', mayor, ' en el año', str(pos + 2000), '*' * 11)
-    # Vuevlo a recorrer el vector, pregunto si hay otro contador con el mismo valor que el mayor y en distinta posicion del mismo
-    for j in range(len(vec_cont)):
-        if (vec_cont[j] == mayor and pos != j):
-            print('*' * 11, 'Años con Mayor Cantidad De Proyectos actualizados', '*' * 11)
-            print('*' * 11, 'Cantidad de proyectos actualizados:', vec_cont[j], ' en el año', str(j + 2000), '*' * 11)
-"""
 
 
 def principal():
@@ -264,8 +248,10 @@ def principal():
             print('*' * 21, 'Proyectos Generados', '*' * 21)
 
             # Muestra de Prouectos para testear ->>>> Eliminar en la entrega
+            """
             for i in vec_proyectos:
                 print(i)
+            """
         elif op == 2:
             print()
             print('*' * 21, 'Proyectos Ordenados Por titulos', '*' * 21)
