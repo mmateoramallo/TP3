@@ -1,8 +1,9 @@
 from Registro import *
 import random
 
+
 # Defino una semilla para pruebas
-#random.seed(21)
+# random.seed(21)
 
 
 def mostrar_menu():
@@ -193,10 +194,10 @@ def filtrar_lenguaje(vec, leng):
     n = len(vec_ln)
     for i in range(n - 1):
         ordenado = True
-        for j in range(n - i -1):
+        for j in range(n - i - 1):
             if vec_ln[j].num_proyect > vec_ln[j + 1].num_proyect:
                 ordenado = False
-                vec_ln[j], vec_ln[j + 1] = vec_ln[j+1], vec_ln[j]
+                vec_ln[j], vec_ln[j + 1] = vec_ln[j + 1], vec_ln[j]
         if ordenado:
             break
     # Recorro el vector para mostrarlo como quedo filtrado
@@ -220,7 +221,6 @@ def productividad(vec_cont):
     for j in range(len(vec_cont)):
         if vec_cont[j] == mayor and pos != j:
             print('*' * 11, 'Cantidad de proyectos actualizados:', vec_cont[j], ' en el año', str(j + 2000), '*' * 11)
-
 
 
 def principal():
@@ -252,6 +252,7 @@ def principal():
             for i in vec_proyectos:
                 print(i)
             """
+
         elif op == 2:
             print()
             print('*' * 21, 'Proyectos Ordenados Por titulos', '*' * 21)
@@ -288,7 +289,7 @@ def principal():
             print()
             productividad(vec_cont)
         elif op == 8:
-            pass
+            print('Adios...')
 
         print()
         print()
