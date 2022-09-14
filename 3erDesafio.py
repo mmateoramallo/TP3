@@ -1,6 +1,6 @@
 import Soporte as soporte
 import collections
-
+from statistics import mode
 
 def create_array():
     # Creamos el array
@@ -113,6 +113,14 @@ def main():
             conta += 1
 
     print('Cantidad de casilleros diferentes de cero:', conta)
+    #Buscar modal del vector sub_dos
+    print('La moda del segundo vector es:', str(mode(vec_sub_dos)))
+    frec_mode = 0
+    for i in range(len(vec_sub_dos)):
+        if vec_sub_dos[i] == 6:
+            frec_mode += 1
+
+    print('La cantidad de veces que aparecio el valor modal es:', frec_mode)
 
 
 
